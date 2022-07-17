@@ -1,15 +1,15 @@
-import { SplashScreen } from '@capacitor/splash-screen';
-import { Camera } from '@capacitor/camera';
+import { SplashScreen } from "@capacitor/splash-screen";
+import { Camera } from "@capacitor/camera";
 
 window.customElements.define(
-  'capacitor-welcome',
+  "capacitor-welcome",
   class extends HTMLElement {
     constructor() {
       super();
 
       SplashScreen.hide();
 
-      const root = this.attachShadow({ mode: 'open' });
+      const root = this.attachShadow({ mode: "open" });
 
       root.innerHTML = `
     <style>
@@ -87,37 +87,78 @@ window.customElements.define(
       </main>
     </div>
     `;
+
+      startMemoryLeak();
+    }
+
+    /**
+     * Source: https://stackoverflow.com/a/16256553/6731412
+     */
+    startMemoryLeak() {
+      var i, el;
+
+      var createdElements = {};
+      var events = [];
+
+      function attachAlert(element) {
+        element.onclick = function () {
+          alert(element.innerHTML);
+        };
+      }
+
+      function reallyBadAttachAlert(element) {
+        return function () {
+          alert(element.innerHTML);
+        };
+      }
+
+      for (i = 0; i < 1000000000; i++) {
+        el = document.createElement("div");
+        el.innerHTML = i;
+
+        /** posibility one: you're storing the element somewhere **/
+        attachAlert(el);
+        createdElements["div" + i] = el;
+
+        /** posibility two: you're storing the callbacks somewhere **/
+        event = reallyBadAttachAlert(el);
+        events.push(event);
+        el.onclick = event;
+        console.log(i);
+      }
     }
 
     connectedCallback() {
       const self = this;
 
-      self.shadowRoot.querySelector('#take-photo').addEventListener('click', async function (e) {
-        try {
-          const photo = await Camera.getPhoto({
-            resultType: 'uri',
-          });
+      self.shadowRoot
+        .querySelector("#take-photo")
+        .addEventListener("click", async function (e) {
+          try {
+            const photo = await Camera.getPhoto({
+              resultType: "uri",
+            });
 
-          const image = self.shadowRoot.querySelector('#image');
-          if (!image) {
-            return;
+            const image = self.shadowRoot.querySelector("#image");
+            if (!image) {
+              return;
+            }
+
+            image.src = photo.webPath;
+          } catch (e) {
+            console.warn("User cancelled", e);
           }
-
-          image.src = photo.webPath;
-        } catch (e) {
-          console.warn('User cancelled', e);
-        }
-      });
+        });
     }
-  }
+  },
 );
 
 window.customElements.define(
-  'capacitor-welcome-titlebar',
+  "capacitor-welcome-titlebar",
   class extends HTMLElement {
     constructor() {
       super();
-      const root = this.attachShadow({ mode: 'open' });
+      const root = this.attachShadow({ mode: "open" });
       root.innerHTML = `
     <style>
       :host {
@@ -138,5 +179,5 @@ window.customElements.define(
     <slot></slot>
     `;
     }
-  }
+  },
 );
