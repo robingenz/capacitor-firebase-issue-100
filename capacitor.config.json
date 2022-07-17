@@ -1,0 +1,11 @@
+{
+  "appId": "com.example.app",
+  "appName": "capacitor-firebase-issue-100",
+  "bundledWebRuntime": false,
+  "webDir": "dist",
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 0
+    }
+  }
+}
