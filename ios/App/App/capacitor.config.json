@@ -1,1 +1,11 @@
-{}
+{
+	"appId": "dev.robingenz.example",
+	"appName": "capacitor-firebase-issue-100",
+	"bundledWebRuntime": false,
+	"webDir": "dist",
+	"plugins": {
+		"SplashScreen": {
+			"launchShowDuration": 0
+		}
+	}
+}
