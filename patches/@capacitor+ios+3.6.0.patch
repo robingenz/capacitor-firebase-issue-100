@@ -1,0 +1,13 @@
+diff --git a/node_modules/@capacitor/ios/Capacitor/Capacitor/WebViewDelegationHandler.swift b/node_modules/@capacitor/ios/Capacitor/Capacitor/WebViewDelegationHandler.swift
+index 33c8689..d1692eb 100644
+--- a/node_modules/@capacitor/ios/Capacitor/Capacitor/WebViewDelegationHandler.swift
++++ b/node_modules/@capacitor/ios/Capacitor/Capacitor/WebViewDelegationHandler.swift
+@@ -147,7 +147,7 @@ internal class WebViewDelegationHandler: NSObject, WKNavigationDelegate, WKUIDel
+     }
+ 
+     public func webViewWebContentProcessDidTerminate(_ webView: WKWebView) {
+-        webView.reload()
++        fatalError("webViewWebContentProcessDidTerminate")
+     }
+ 
+     // MARK: - WKScriptMessageHandler
